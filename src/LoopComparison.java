@@ -9,8 +9,12 @@ public class LoopComparison {
 
 	public static void main(String[] args) {
 		final int OPTION_NUM = 2; // number of option comparisons
+		String loanPaymentSchedule1 = "";
+		String loanPaymentSchedule2 = "";
+
 		int customerNum; // number of customers
 		double localCarPurchasePrice = 0;
+		CarLoan carLoan = null;
 
 		Scanner input0 = new Scanner(System.in);
 
@@ -36,16 +40,22 @@ public class LoopComparison {
 				// call loan option twice for the comparison
 				System.out.print("\nFor loan option " + j + ":");
 
-				loanOption(j, localCarPurchasePrice);
+				carLoan = loanOption(j, localCarPurchasePrice);
+
+				if (j == 1) {
+					loanPaymentSchedule1 = carLoan.getLoanPaymentSchedule(j);
+				} else if (j ==2) {
+					loanPaymentSchedule2 = carLoan.getLoanPaymentSchedule(j);
+				}
+
+
 			}
 
 			System.out.print("\n\n");
 			System.out.print("\nLOAN COMPARISONS FOR CUSTOMER " + (i + 1) + ":");
 
-			// if (loanOptionNum == 1) {
-			for (int k = 1; k <= OPTION_NUM; k++) {
-				LoanComparison.generateLoanPaymentSchedule(k);
-			}
+			System.out.print(loanPaymentSchedule1);
+			System.out.print(loanPaymentSchedule2);
 		}
 	}
 
@@ -78,7 +88,7 @@ public class LoopComparison {
 	/**
 	 * readPercent() Prompt, read, validate a percentage.
 	 * 
-	 * @param minAmount
+	 * @param minPercent
 	 * 
 	 * @return percent - A valid percentage.
 	 */
@@ -112,7 +122,7 @@ public class LoopComparison {
 	 * 
 	 * @return
 	 */
-	public static LoanComparison loanOption(int loanOptionNum, double carPurchasePrice) {
+	public static CarLoan loanOption(int loanOptionNum, double carPurchasePrice) {
 		final double FIVE_PERCENT_DOWN = .05; // 5% down payment
 		final double TEN_PERCENT_DOWN = .1; // 10% down payment
 		final double ZERO_DOWN_RATE = .048; // 4.8% annual int
@@ -130,10 +140,11 @@ public class LoopComparison {
 		double localMonthlyPayment = 0;
 		boolean switchChoice = false; // boolean for the switch
 
+		CarLoan carLoan = null;
+
 		Scanner input3 = new Scanner(System.in);
 
 		do {
-
 			System.out.println("\nWhat will the down payment be? " + "\n    1 - no down payment"
 					+ "\n    2 - 5% down payment" + "\n    3 - 10% down payment" + "\n    4 - Over 10% down payment"
 					+ "\nEnter choice from menu above: ");
@@ -176,20 +187,9 @@ public class LoopComparison {
 		// Not sure about this... only one object specified in requirements...
 		// System.out.print("\n test 1 loanOption number: " + loanOptionNum + "\n");
 
-		if (loanOptionNum == 1) {
-			// System.out.print("\n test 2 loanOption number: " + loanOptionNum + "\n");
+		carLoan = new CarLoan(carPurchasePrice, downPaymentPercent, localAnnualIntRate, localMonthlyPayment);
 
-			LoanComparison newCarLoan1 = new LoanComparison(carPurchasePrice, downPaymentPercent, localAnnualIntRate,
-					localMonthlyPayment);
-
-			return newCarLoan1;
-		} else {
-			// System.out.print("\n test 3 loanOption number: " + loanOptionNum + "\n");
-			LoanComparison newCarLoan2 = new LoanComparison(carPurchasePrice, downPaymentPercent, localAnnualIntRate,
-					localMonthlyPayment);
-
-			return newCarLoan2;
-		}
+		return carLoan;
 
 	}
 }
