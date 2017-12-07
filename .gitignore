@@ -1,3 +1,7 @@
+.classpath
+.metadata/
+.project
+
 # Compiled class file
 *.class
 
